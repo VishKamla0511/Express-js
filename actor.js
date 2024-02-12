@@ -7,16 +7,16 @@ const connection = require('./database');
 const getActorDetails = async (req, res, next) => {
     try {
         console.log(req.headers);
-        const { id, limit, offset } = req.query
+        const { limit, offset } = req.query
 
-        if (!req.query.id) {
-            res.status(400).send({
-                message: 'missing parameter'
-            })
-        }
+        // if (!req.query.id) {
+        //     res.status(400).send({
+        //         message: 'missing parameter'
+        //     })
+        // }
 
         const sql = 'select name, born_date from actors';
-        const [results] = await connection.promise().execute(sql, [id, limit, offset]);
+        const [results] = await connection.promise().execute(sql, [limit, offset]);
 
         const countsql = 'select count(*) as count from actors'
         const [countResults] = await connection.promise().execute(countsql)
@@ -168,7 +168,7 @@ const updateActor = async (req,res,next) => {
 
         // const setstr = setArray.join(',')
 
-        const sqlStr = `update actors set bore_date = ? where id =?`
+        const sqlStr = `update actors set born_date = ? where id =?`
         const [results] = await connection.promise().execute(sqlStr, [born_date,id]);
 
         if(!res.changedRows===1){

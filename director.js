@@ -7,16 +7,16 @@ const connection = require('./database');
 const getDirectorDetails = async (req, res, next) => {
     try {
         console.log(req.headers);
-        const { id, limit, offset } = req.query
+        const { limit, offset } = req.query
 
-        if (!req.query.id) {
-            res.status(400).send({
-                message: 'missing parameter'
-            })
-        }
+        // if (!req.query.id) {
+        //     res.status(400).send({
+        //         message: 'missing parameter'
+        //     })
+        // }
 
         const sql = 'select name, year, image from directors';
-        const [results] = await connection.promise().execute(sql, [id, limit, offset]);
+        const [results] = await connection.promise().execute(sql, [limit, offset]);
 
         const countsql = 'select count(*) as count from directors'
         const [countResults] = await connection.promise().execute(countsql)

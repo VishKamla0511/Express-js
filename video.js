@@ -16,7 +16,7 @@ const getvideobyid = async (req, res) => {
             })
         }
 
-        const sql = 'select * from users where id = ?';
+        const sql = 'select title, descrption, language, duration, release_date , video_type_id from videos';
         const [results] = await connection.promise().execute(sql, [id]);
 
         if (results.length === 0) {
@@ -76,15 +76,15 @@ const getReviewByVideoId = async (req, res, next) => {
 const getVideos = async (req, res) => {
     try {
         console.log(req.headers);
-        const { id, limit, offset } = req.query
+        const { limit, offset } = req.query
 
-        if (!req.query.id) {
-            res.status(400).send({
-                message: 'missing parameter'
-            })
-        }
-            const sql = 'select title, descrption, language, duration, release_date , video_type_id from videos where id =? order by release_date limit ? offset ?';
-            const [results] = await connection.promise().execute(sql, [id, limit, offset]);
+        // if (!req.query.id) {
+        //     res.status(400).send({
+        //         message: 'missing parameter'
+        //     })
+        // }
+            const sql = 'select title, descrption, language, duration, release_date , video_type_id from videos order by release_date limit ? offset ?';
+            const [results] = await connection.promise().execute(sql, [limit, offset]);
 
             const countsql = 'select count(*) as count from videos'
             const [countResults] = await connection.promise().execute(countsql)
